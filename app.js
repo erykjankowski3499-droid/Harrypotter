@@ -49,10 +49,10 @@ const PLAYERS = [
   {
     id: 'eryk',
     name: 'Eryk',
-    character: 'Syriusz Black',
+    character: 'Draco Malfoy',
     image: 'images/eryk.jpg',
-    description: 'Niepokorny, nieprzewidywalny i bezgranicznie wierny swoim. Łamiesz zasady, ale nigdy słowo dane przyjacielowi.',
-    traits: ['Gryffindor', 'Bunt', 'Przyjaźń']
+    description: 'Duma Slytherinu. Wchodzisz do sali tak, jakby należała do Ciebie, a jeden uniesiony kącik ust mówi więcej niż cudze przemowy. Pod tą pewnością siebie kryje się jednak więcej, niż pokazujesz.',
+    traits: ['Slytherin', 'Duma', 'Spryt']
   }
 ];
 
