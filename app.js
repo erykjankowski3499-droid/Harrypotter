@@ -36,10 +36,11 @@ const PLAYERS = [
   {
     id: 'george',
     name: 'George',
-    character: 'George Weasley',
-    image: 'images/george.jpg',
-    description: 'Mistrz psot i wynalazca magicznych figli. Tam, gdzie się pojawiasz, robi się głośno i wesoło — ale pod śmiechem kryje się odwaga jak z żelaza.',
-    traits: ['Gryffindor', 'Psotność', 'Pomysłowość']
+    character: 'Profesor Pomona Sprout',
+    image: 'images/george.png',
+    focus: 'left center',
+    description: 'Opiekunka Hufflepuffu i mistrzyni zielarstwa. Nie boisz się ubrudzić rąk, a z każdej trudnej sytuacji wyciągasz coś, co da się wyhodować — nawet jeśli po drodze trzeba nakrzyczeć na mandragorę.',
+    traits: ['Hufflepuff', 'Cierpliwość', 'Praktyczność']
   },
   {
     id: 'doma',

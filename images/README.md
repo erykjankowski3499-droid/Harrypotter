@@ -7,7 +7,7 @@ Wrzuć tutaj zdjęcia pod nazwami odpowiadającymi graczom:
 | Margo   | `margo.jpg`                                 |
 | Piotrek | `piotrek.webp`                              |
 | Antek   | `antek.jpg`                                 |
-| George  | `george.jpg`                                |
+| George  | `george.png`                                |
 | Doma    | `doma.jpg`                                  |
 | Eryk    | `eryk.jpg`                                  |
 
