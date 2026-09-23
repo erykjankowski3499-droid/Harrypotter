@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magiczny Quiz — Którą postacią jesteś?</title>
+<meta name="description" content="Quiz w klimacie Hogwartu dla sześciorga graczy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+
+  <main class="wrap">
+
+    <!-- EKRAN 1: wybór gracza -->
+    <section id="screen-players" class="screen is-active">
+      <header class="intro">
+        <p class="kicker">Szkoła Magii i Czarodziejstwa</p>
+        <h1>Którą postacią jesteś?</h1>
+        <p class="lead">Wybierz swoje imię, odpowiedz na 5 pytań i poznaj czarodzieja, który w Tobie drzemie.</p>
+      </header>
+      <ul id="player-list" class="players"></ul>
+    </section>
+
+    <!-- EKRAN 2: pytania -->
+    <section id="screen-quiz" class="screen">
+      <div class="quiz-top">
+        <button id="btn-back" class="link-btn" type="button">← Wstecz</button>
+        <p class="who">Gra: <strong id="who-name">—</strong></p>
+      </div>
+
+      <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <p class="counter" id="counter">Pytanie 1 z 5</p>
+
+      <h2 id="q-title">—</h2>
+      <p id="q-desc" class="q-desc">—</p>
+      <ul id="answers" class="answers"></ul>
+    </section>
+
+    <!-- EKRAN 3: wynik -->
+    <section id="screen-result" class="screen">
+      <p class="kicker">Tiara Przydziału zdecydowała</p>
+      <p class="result-for"><strong id="result-player">—</strong>, jesteś…</p>
+
+      <figure class="portrait">
+        <div class="frame">
+          <img id="result-img" alt="">
+          <div id="result-placeholder" class="placeholder"><span id="result-initial">?</span></div>
+        </div>
+        <figcaption id="result-name">—</figcaption>
+      </figure>
+
+      <p id="result-desc" class="result-desc">—</p>
+      <ul id="result-traits" class="traits"></ul>
+
+      <div class="actions">
+        <button id="btn-again" class="btn" type="button">Zagraj jeszcze raz</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
