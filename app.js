@@ -4,7 +4,9 @@
 
 /* Gracze i przypisane im na stałe postacie.
    Wynik NIE zależy od odpowiedzi — każdy gracz zawsze dostaje swoją postać.
-   `image` to plik w folderze images/ (dodaj zdjęcia pod tymi nazwami). */
+   `image` to plik w folderze images/ (dodaj zdjęcia pod tymi nazwami).
+   `focus` (opcjonalne) decyduje, która część zdjęcia zostaje przy kadrowaniu
+   do ramki 3:4 — np. 'center top', 'center', '30% 20%'. Domyślnie środek. */
 const PLAYERS = [
   {
     id: 'margo',
@@ -17,10 +19,11 @@ const PLAYERS = [
   {
     id: 'piotrek',
     name: 'Piotrek',
-    character: 'Harry Potter',
-    image: 'images/piotrek.jpg',
-    description: 'Chłopiec, Który Przeżył. Nie szukasz kłopotów — to one znajdują Ciebie, a Ty stajesz do nich twarzą w twarz, zawsze po stronie słabszych.',
-    traits: ['Gryffindor', 'Odwaga', 'Serce']
+    character: 'Bowtruckle',
+    image: 'images/piotrek.webp',
+    focus: 'center top',
+    description: 'Maleńki strażnik drzew różdżkowych. Wyglądasz niepozornie i wolisz trzymać się z boku, ale kto raz zdobędzie Twoje zaufanie, nie znajdzie wierniejszego towarzysza — ani nikogo, kto broniłby swoich równie zaciekle.',
+    traits: ['Strażnik drzew', 'Czujność', 'Mała wielka odwaga']
   },
   {
     id: 'antek',
@@ -239,9 +242,14 @@ function loadPortrait(player) {
   img.classList.remove('is-loaded');
   placeholder.classList.remove('is-hidden');
   img.alt = player.character;
+  img.style.objectPosition = player.focus || 'center';
 
-  const base = (player.image || `images/${player.id}.jpg`).replace(/\.[^./]+$/, '');
-  const candidates = ['.jpg', '.jpeg', '.png', '.webp'].map((ext) => base + ext);
+  const declared = player.image || `images/${player.id}.jpg`;
+  const base = declared.replace(/\.[^./]+$/, '');
+  const preferred = declared.slice(base.length).toLowerCase();
+  const extensions = ['.jpg', '.jpeg', '.png', '.webp'];
+  const order = [preferred, ...extensions.filter((ext) => ext !== preferred)];
+  const candidates = order.filter(Boolean).map((ext) => base + ext);
   let i = 0;
 
   img.onload = () => {
