@@ -1,0 +1,22 @@
+{
+  "name": "panstwa-miasta",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Państwa-Miasta online — gra na żywo dla wielu graczy (Socket.IO).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.4"
+  }
+}

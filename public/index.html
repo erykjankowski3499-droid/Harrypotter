@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16151c" media="(prefers-color-scheme: dark)">
+<title>Państwa-Miasta</title>
+<meta name="description" content="Państwa-Miasta online — graj ze znajomymi na żywo, także na telefonie.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e4572e'/%3E%3Ctext x='32' y='45' font-family='Arial' font-weight='700' font-size='38' text-anchor='middle' fill='white'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="app">
+
+  <!-- START -->
+  <section id="screen-home" class="screen" hidden>
+    <header class="hero">
+      <div class="logo" aria-hidden="true"><span>P</span><span>M</span></div>
+      <h1>Państwa-Miasta</h1>
+      <p class="muted">Klasyka z zeszytu — tylko że na żywo, ze znajomymi, na telefonie.</p>
+    </header>
+
+    <form id="form-home" class="card stack" autocomplete="off">
+      <label class="field">
+        <span>Twój nick</span>
+        <input id="nick" name="nick" maxlength="20" required autocomplete="nickname" enterkeyhint="done" placeholder="np. Eryk">
+      </label>
+      <button id="btn-create" class="btn btn-primary" type="submit">Utwórz pokój</button>
+
+      <div class="divider"><span>albo dołącz</span></div>
+
+      <div class="join-row">
+        <label class="field grow">
+          <span>Kod pokoju</span>
+          <input id="join-code" maxlength="4" inputmode="text" autocapitalize="characters" placeholder="ABCD" enterkeyhint="go">
+        </label>
+        <button id="btn-join" class="btn" type="button">Dołącz</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- POCZEKALNIA -->
+  <section id="screen-lobby" class="screen" hidden>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Pokój</p>
+        <p class="room-code" id="lobby-code">----</p>
+      </div>
+      <button id="btn-share" class="btn btn-small" type="button">Zaproś</button>
+    </header>
+
+    <div id="last-round" class="card last-round" hidden></div>
+
+    <section class="card">
+      <h2>Gracze</h2>
+      <ol id="lobby-players" class="players"></ol>
+    </section>
+
+    <section class="card stack" id="settings-card">
+      <h2>Ustawienia</h2>
+
+      <div>
+        <p class="label">Kategorie</p>
+        <div id="cat-chips" class="chips"></div>
+        <form id="form-custom-cat" class="add-cat" autocomplete="off">
+          <input id="custom-cat" maxlength="30" placeholder="Własna kategoria…" enterkeyhint="done">
+          <button class="btn btn-small" type="submit">Dodaj</button>
+        </form>
+      </div>
+
+      <div class="grid-3">
+        <label class="field">
+          <span>Czas rundy</span>
+          <select id="set-round"></select>
+        </label>
+        <label class="field">
+          <span>Czas po STOP</span>
+          <select id="set-grace"></select>
+        </label>
+        <label class="field">
+          <span>Kara za STOP</span>
+          <select id="set-penalty"></select>
+        </label>
+      </div>
+      <p class="hint">Kto naciśnie STOP bez kompletu poprawnych haseł, traci punkty kary.</p>
+    </section>
+
+    <div class="actions">
+      <button id="btn-start" class="btn btn-primary btn-big" type="button">Losuj literę i graj</button>
+      <p id="wait-host" class="muted center" hidden>Czekamy, aż host zacznie rundę…</p>
+      <div class="actions-row">
+        <button id="btn-end" class="btn btn-ghost" type="button">Zakończ grę</button>
+        <button class="btn btn-ghost js-leave" type="button">Wyjdź z pokoju</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RUNDA -->
+  <section id="screen-play" class="screen" hidden>
+    <header class="play-head">
+      <div class="letter-tile" id="letter" aria-live="polite">?</div>
+      <div class="play-meta">
+        <p class="eyebrow" id="play-round">Runda 1</p>
+        <p class="timer" id="timer">0:00</p>
+        <div class="timebar"><div id="timebar-fill"></div></div>
+      </div>
+    </header>
+
+    <div id="stop-banner" class="banner" hidden></div>
+
+    <div id="spectator" class="card center" hidden>
+      <p><strong>Runda w toku.</strong></p>
+      <p class="muted">Dołączyłeś w trakcie — zagrasz od następnej rundy.</p>
+    </div>
+
+    <form id="answers" class="answers" autocomplete="off"></form>
+
+    <section class="card">
+      <h2 class="h-small">Postęp</h2>
+      <ul id="progress" class="progress-list"></ul>
+    </section>
+
+    <div class="stop-dock">
+      <button id="btn-stop" class="btn btn-stop" type="button">STOP</button>
+    </div>
+  </section>
+
+  <!-- ZBIERANIE -->
+  <section id="screen-collect" class="screen" hidden>
+    <div class="card center big-msg">
+      <div class="spinner" aria-hidden="true"></div>
+      <p><strong>Koniec czasu!</strong></p>
+      <p class="muted">Zbieram odpowiedzi…</p>
+    </div>
+  </section>
+
+  <!-- GŁOSOWANIE -->
+  <section id="screen-vote" class="screen" hidden>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow" id="vote-round">Runda 1</p>
+        <h2 class="vote-title">Sprawdzanie haseł</h2>
+      </div>
+      <div class="letter-tile small" id="vote-letter">?</div>
+    </header>
+    <p class="hint">Stuknij <strong>Nie uznaję</strong> przy haśle, które Twoim zdaniem nie pasuje. Hasło odpada, gdy nie uzna go ponad połowa pozostałych graczy.</p>
+
+    <div id="vote-cats" class="stack"></div>
+
+    <section class="card">
+      <h2>Punkty w tej rundzie</h2>
+      <ol id="vote-totals" class="players"></ol>
+    </section>
+
+    <div class="actions">
+      <button id="btn-confirm" class="btn btn-primary btn-big" type="button">Zatwierdź wyniki</button>
+      <p id="wait-confirm" class="muted center" hidden>Host zatwierdzi wyniki, gdy wszyscy skończą głosować.</p>
+    </div>
+  </section>
+
+  <!-- KONIEC -->
+  <section id="screen-final" class="screen" hidden>
+    <header class="hero">
+      <p class="eyebrow">Koniec gry</p>
+      <h1 id="final-winner">—</h1>
+    </header>
+    <section class="card">
+      <ol id="final-list" class="players ranking"></ol>
+    </section>
+    <div class="actions">
+      <button id="btn-reset" class="btn btn-primary btn-big" type="button">Nowa gra</button>
+      <p id="wait-reset" class="muted center" hidden>Host może zacząć nową grę.</p>
+      <button class="btn btn-ghost js-leave" type="button">Wyjdź z pokoju</button>
+    </div>
+  </section>
+
+  <div id="conn" class="conn" hidden>Łączę się ponownie…</div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <dialog id="dlg-stop" class="dialog">
+    <form method="dialog">
+      <h2>Nie masz wszystkich haseł</h2>
+      <p id="dlg-stop-text"></p>
+      <div class="actions-row">
+        <button class="btn" value="cancel">Wracam do pisania</button>
+        <button class="btn btn-stop-soft" value="confirm">STOP mimo to</button>
+      </div>
+    </form>
+  </dialog>
+</main>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
